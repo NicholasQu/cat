@@ -77,6 +77,13 @@ public class GlobalConfigProcessor {
 		case PROJECT_ALL:
 			String domain = payload.getDomain();
 
+			if ("refresh".equals(domain)) {
+				try {
+					m_projectService.initialize();
+				} catch (Exception e) {
+				}
+			}
+
 			if (StringUtils.isEmpty(domain)) {
 				domain = Constants.CAT;
 			}

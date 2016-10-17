@@ -297,10 +297,10 @@ public class LocalMessageBucketManager extends ContainerHolder implements Messag
 
 				DefaultMessageTree tree = (DefaultMessageTree) item.getTree();
 				ByteBuf buf = tree.getBuffer();
-				MessageBlock block = bucket.storeMessage(buf, id);
+				MessageBlock bolck = bucket.storeMessage(buf, id);
 
-				if (block != null) {
-					if (!m_messageBlocks.offer(block)) {
+				if (bolck != null) {
+					if (!m_messageBlocks.offer(bolck)) {
 						m_serverStateManager.addBlockLoss(1);
 						Cat.logEvent("DumpError", tree.getDomain());
 					}
