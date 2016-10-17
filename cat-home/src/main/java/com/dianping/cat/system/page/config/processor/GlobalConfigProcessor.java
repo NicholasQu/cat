@@ -73,17 +73,17 @@ public class GlobalConfigProcessor {
 	}
 
 	public void process(Action action, Payload payload, Model model) {
+		String domain = payload.getDomain();
+
+		if ("refresh".equals(domain)) {
+			try {
+				m_projectService.initialize();
+			} catch (Exception e) {
+			}
+		}
+
 		switch (action) {
 		case PROJECT_ALL:
-			String domain = payload.getDomain();
-
-			if ("refresh".equals(domain)) {
-				try {
-					m_projectService.initialize();
-				} catch (Exception e) {
-				}
-			}
-
 			if (StringUtils.isEmpty(domain)) {
 				domain = Constants.CAT;
 			}

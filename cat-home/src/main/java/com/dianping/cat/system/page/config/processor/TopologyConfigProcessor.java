@@ -102,6 +102,15 @@ public class TopologyConfigProcessor {
 	}
 
 	public void process(Action action, Payload payload, Model model) {
+		String domain = payload.getDomain();
+
+		if ("refresh".equals(domain)) {
+			try {
+				m_productLineConfigManger.initialize();
+			} catch (Exception e) {
+			}
+		}
+
 		switch (action) {
 		case TOPOLOGY_GRAPH_NODE_CONFIG_LIST:
 			model.setGraphConfig(m_topologyConfigManager.getConfig());
