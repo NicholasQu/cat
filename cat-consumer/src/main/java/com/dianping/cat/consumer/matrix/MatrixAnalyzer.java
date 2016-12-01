@@ -132,9 +132,9 @@ public class MatrixAnalyzer extends AbstractMessageAnalyzer<MatrixReport> implem
 
 		if (m_serverConfigManager.isRpcClient(type)) {
 			ratio = ratios.get("Call");
-		} else if (type.startsWith("SQL.")) {
+		} else if (type.startsWith("SQL")) {
 			ratio = ratios.get("SQL");
-		} else if (type.startsWith("Cache.")) {
+		} else if (type.startsWith("Cache")) {
 			ratio = ratios.get("Cache");
 		}
 		if (ratio != null) {
