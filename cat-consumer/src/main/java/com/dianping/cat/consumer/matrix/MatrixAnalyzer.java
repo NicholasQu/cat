@@ -66,7 +66,27 @@ public class MatrixAnalyzer extends AbstractMessageAnalyzer<MatrixReport> implem
 		if (message instanceof Transaction) {
 			String messageType = message.getType();
 
-			if (messageType.equals("URL") || messageType.equals("Service") || messageType.equals("PigeonService")) {
+			boolean matrixOk = messageType.startsWith("URL") || messageType.startsWith("Service");
+
+			if (!matrixOk) {
+				String[] matrixTypeArray = new String[] {"DUBBO", "RPC", "HTTP"};
+
+				String matrixtypes = System.getProperty("catmatrixtype");
+				if (matrixtypes != null) {
+					matrixTypeArray = matrixtypes.split(",");
+				}
+
+				if (matrixTypeArray != null && matrixTypeArray.length > 0) {
+					for (String type : matrixTypeArray) {
+						if (messageType.startsWith(type)) {
+							matrixOk = true;
+							break;
+						}
+					}
+				}
+			}
+
+			if (matrixOk) {
 				Matrix matrix = report.findOrCreateMatrix(message.getName());
 				matrix.setType(message.getType());
 				matrix.setName(message.getName());
@@ -112,7 +132,7 @@ public class MatrixAnalyzer extends AbstractMessageAnalyzer<MatrixReport> implem
 
 		if (m_serverConfigManager.isRpcClient(type)) {
 			ratio = ratios.get("Call");
-		} else if (type.equals("SQL")) {
+		} else if (type.startsWith("SQL.")) {
 			ratio = ratios.get("SQL");
 		} else if (type.startsWith("Cache.")) {
 			ratio = ratios.get("Cache");
